@@ -8,7 +8,11 @@ helpful_functions.py : functions used in other codes. Extracting wanted simulati
 
 infection_model.py : code related to space-time dependent probability pij
 
+occ_test_par.py : code related to the PNAS paper speed vs. occupancy test
+
 only_animation.py : code related to animate the simulations
+
+ped_funcs.f90 : fortran functions used by compute_destinations in occ_test_par.py
 
 ped_utils.py : various utility functions used for post-processing
 
