@@ -89,7 +89,7 @@ def plot_current_positions(x,r,t,fig_name, colors = None):
 #------------------------------------------------------------------------------#
 def plot_trajectories(x_full):
     """ Plots trajectories taken of persons """
-    n = x_full.shape[0]
+    n = x_full.shape[1]
     for i in range(n):
         plt.plot(x_full[0,i,:],x_full[1,i,:],'k')
 #------------------------------------------------------------------------------#
@@ -99,45 +99,12 @@ def distances_to_point(x,xp,yp):
     x_vals = x[0,:] - xp
     y_vals = x[1,:] - yp
     return np.linalg.norm( [x_vals,y_vals], axis = 0)
-    
-#------------------------------------------------------------------------------#
-def distances_to_point_time(x,xp,yp,t):
-    """Computes the distances from a point (xp,yp) to all the pedestrians, at one time t"""
-
-    x_vals = x[0,:,t] - xp
-    y_vals = x[1,:,t] - yp
-    return np.linalg.norm( [x_vals,y_vals], axis = 0)
 #------------------------------------------------------------------------------#
 def weight_function(dist):
     """Computes the distance based weight function for an inputted value/array"""
 
     R = 0.7
     return np.exp( - np.multiply( dist, dist) / (R * R)) / ( np.pi * R * R)
-    
-#------------------------------------------------------------------------------#
-def local_density_current_transmission(x,v,point):
-    """Computes the local speed at point x in the current iteraion of the model"""
-    
-    R=1.5
-
-    #putils.local_speed_current(x_full[:,:,t],v_full[:,:,t],[liste_x[i],0])
-    dist = distances_to_point(x,point[0],point[1])
-    kernel = weight_function(dist[dist<R])
-    sum_kernel = np.sum(kernel) - 1/ ( np.pi * R * R) #1 because we want to remove the distance between point 0 and point infected, equals 1 with exponential
-
-    return sum_kernel
-    
-def local_density_current(x,v,point):
-    """Computes the local speed at point x in the current iteraion of the model"""
-    
-    R=0.7
-
-    #putils.local_speed_current(x_full[:,:,t],v_full[:,:,t],[liste_x[i],0])
-    dist = distances_to_point(x,point[0],point[1])
-    kernel = weight_function(dist)
-    sum_kernel = np.sum(kernel) - 1/ ( np.pi * R * R) #1 because we want to remove the distance between point 0 and point infected, equals 1 with exponential
-
-    return sum_kernel
 #------------------------------------------------------------------------------#
 def local_speed_current(x,v,point):
     """Computes the local speed at point x in the current iteraion of the model"""
@@ -172,3 +139,24 @@ def average_speed(v_full):
 
     return np.average( np.linalg.norm( v_full, axis = 0))
 #------------------------------------------------------------------------------#
+def animate_xfull(x_full):
+    """ Display sequence of pedestrian positions
+    """
+
+    xmin = x_full[0].min()
+    xmax = x_full[0].max()
+    ymin = x_full[1].min()
+    ymax = x_full[1].max()
+
+    fig,ax = plt.subplots()
+    for i in range(x_full.shape[-1]):
+        ax.plot(x_full[0,:,i],x_full[1,:,i],'o')
+        ax.axis([xmin,xmax,ymin,ymax])
+        plt.title(i)
+        plt.xlabel('x')
+        plt.ylabel('y')
+        plt.pause(0.025)
+        ax.clear()
+
+
+    return None
