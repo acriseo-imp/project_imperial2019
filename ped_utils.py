@@ -127,7 +127,6 @@ def local_density_current_transmission(x,v,point):
     
     R=1.5
 
-    #putils.local_speed_current(x_full[:,:,t],v_full[:,:,t],[liste_x[i],0])
     dist = distances_to_point(x,point[0],point[1])
     kernel = weight_function(dist[dist<R])
     sum_kernel = np.sum(kernel) - 1/ ( np.pi * R * R) #1 because we want to remove the distance between point 0 and point infected, equals 1 with exponential
@@ -139,7 +138,6 @@ def local_density_current(x,v,point):
     
     R=0.7
 
-    #putils.local_speed_current(x_full[:,:,t],v_full[:,:,t],[liste_x[i],0])
     dist = distances_to_point(x,point[0],point[1])
     kernel = weight_function(dist)
     sum_kernel = np.sum(kernel) - 1/ ( np.pi * R * R) #1 because we want to remove the distance between point 0 and point infected, equals 1 with exponential

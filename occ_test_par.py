@@ -1,3 +1,13 @@
+"""
+
+CRISEO Alexandre
+CID 01604586
+Imperial College, 2018-2019, MSC Applied Mathematics
+
+Simulation of unidirectional flow of pedestrians
+
+"""
+
 #------------------------------------------------------------------------------#
 import math
 import numpy as np
