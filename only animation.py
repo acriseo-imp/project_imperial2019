@@ -1,31 +1,33 @@
+"""
+
+CRISEO Alexandre
+CID 01604586
+Imperial College, 2018-2019, MSC Applied Mathematics
+
+
+Code to create animations of simulations
+
+"""
+
+
 #------------------------------------------------------------------------------#
 import math
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-#To parallelize the code
-from joblib import Parallel, delayed
-import multiprocessing
-import time
-import scipy.spatial.distance as scidist
-num_cores = multiprocessing.cpu_count()
-import ped_utils as putils
 import helpful_functions as hf
 #---------------------------
 
-### IMPORT x_full[0] and x_full[1]
 
-    
-   
-
-number = 12
-iteration = 100
+### Parameters
+number = 75
+iteration = 26
 date = 2908
 timestep = 0.05
-removing_vx = True
+removing_vx = False
 removestr = ''
 
-
+### Import data
 x,y,vx,r,occ = hf.parameters_005anim(date,'MLC1',number,iteration)
 
 iter = x.shape[0] #number of iterations
@@ -42,9 +44,6 @@ if removing_vx :
         x[x[:,t]>4]-=8
         
     x = new_x
-
-    
-    
 
 
 fig, ax = plt.subplots()

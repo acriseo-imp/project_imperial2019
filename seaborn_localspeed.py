@@ -1,3 +1,14 @@
+"""
+
+CRISEO Alexandre
+CID 01604586
+Imperial College, 2018-2019, MSC Applied Mathematics
+
+
+Space-time diagrams of local speed
+
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import math
@@ -6,26 +17,20 @@ import pandas as pd
 import ped_utils as putils
 import helpful_functions as hf
 
-liste_x=np.arange(-4,4,0.05)
+list_x=np.arange(-4,4,0.05)
 
 
 date = 2908
 timestep = 0.05
 already_data = False
 
-#list_iteration = np.arange(54)
-
-#number_list = [90,82,75,67,60,52]
-
-#number_list=[45]
-
 number_list = [36,30,24]
 
 list_iteration = np.arange(63,88)
 
 
-
-def local_speed_seaborn(x,y,vx,vy,liste_x):
+### return local speed through time, for different points in list_x
+def local_speed_seaborn(x,y,vx,vy,list_x):
     N=x.shape[0]
     Time=x.shape[1]
     x_full = np.zeros([2,N,Time])
@@ -36,17 +41,17 @@ def local_speed_seaborn(x,y,vx,vy,liste_x):
     v_full[0]=vx
     v_full[1]=vy
     
-    nx = liste_x.shape[0]
+    nx = list_x.shape[0]
     data = np.zeros([nx,Time])
     
     for i in range(nx):
         for t in range(Time):
-            data[i][t]=putils.local_speed_current(x_full[:,:,t],v_full[:,:,t],[liste_x[i],0])
+            data[i][t]=putils.local_speed_current(x_full[:,:,t],v_full[:,:,t],[list_x[i],0])
             
     return data
     
 
-
+### Space time diagram
 def spacetimediagramlocal(number,iteration,date,timestep,already_data):
 
     if already_data :
@@ -62,11 +67,11 @@ def spacetimediagramlocal(number,iteration,date,timestep,already_data):
         vx=vx[:,int(10//timestep):]
         vy=vy[:,int(10//timestep):]
             
-        data = local_speed_seaborn(x,y,vx,vy,liste_x)
+        data = local_speed_seaborn(x,y,vx,vy,list_x)
         
         np.savetxt('C:/Users/alexa/Documents/Alexandre/Imperial/Cours/Project/model19/results/occupancy/speedandsimulationsplot/localspeed/data/'+str(date)+'_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005xfullbigH9timesMLC1datalocalspeedremoved10.csv',data,delimiter = ',')
     
-        N=liste_x.shape[0]
+        N=list_x.shape[0]
         Time=x.shape[1]
         z0=np.linspace(0,90.1,num=1802,endpoint=False)
         z0=z0[int(10//timestep):]
@@ -74,19 +79,18 @@ def spacetimediagramlocal(number,iteration,date,timestep,already_data):
         v=data[0]
         x=[]
         for t in range (Time):
-            x=np.concatenate((x,[liste_x[0]]))
+            x=np.concatenate((x,[list_x[0]]))
         for i in range(1,N):
             for t in range (Time):
-                x=np.concatenate((x,[liste_x[i]]))
+                x=np.concatenate((x,[list_x[i]]))
             
             v=np.concatenate((v,data[i]))
             z=np.concatenate((z,z0))
         
         np.savetxt('C:/Users/alexa/Documents/Alexandre/Imperial/Cours/Project/model19/results/occupancy/speedandsimulationsplot/localspeed/data/'+str(date)+'_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005xfullbigH9timesMLC1xzvlocalspeedremoved10.csv',(x,z,v),delimiter = ',')
         
-        
     
-    index_to_remove = np.where (0.6 < v)
+    index_to_remove = np.where (1 < v) #removing unrelevant speeds
     x=np.delete(x,index_to_remove)
     v=np.delete(v,index_to_remove)
     z=np.delete(z,index_to_remove)

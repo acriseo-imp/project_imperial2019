@@ -1,26 +1,21 @@
+"""
+
+CRISEO Alexandre
+CID 01604586
+Imperial College, 2018-2019, MSC Applied Mathematics
+
+
+Code in relation with phase transitions.
+
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import ped_utils as putils
 import helpful_functions as hf
 
-#vx = np.genfromtxt('D:/Project/Sauvegarde 20_07/Project MLC 3/results/new_occupancy/1008_1_occupancy72time90timestep0025positionrandomradiusrandomvxfullbigHMLC3.csv', delimiter=',') 
 
-
-vx = np.genfromtxt('D:/Project/Sauvegarde 20_07/Project MLC 2/results/new_occupancy/1008_1_occupancy96time90timestep0025positionrandomradiusrandomvxfullbigHMLC2.csv', delimiter=',')
-
-
-#vx = np.genfromtxt('D:/Project/Sauvegarde 20_07/Project MLC 2/results/new_occupancy/0708_1_occupancy48time90timestep01positionrandomradiusrandomvxfullMLC2.csv', delimiter=',')
-
-#vx = np.genfromtxt('D:/Project/Sauvegarde 20_07/Project MLC 8/new_occupancy/1008_1_occupancy48time90timestep0025positionnotrandomradiusnotrandomvxfullbigHMLC8.csv', delimiter=',')
-
-#vx = np.genfromtxt('D:/Project/Sauvegarde 20_07/Project MLC 4/results/new_occupancy/1008_1_occupancy48time90timestep0025positionrandomradiusrandomvxfullbigHMLC4.csv', delimiter=',')
-
-#vx = np.genfromtxt('D:/Project/Sauvegarde 20_07/Project MLC 9/new_occupancy/1008_3_occupancy72time90timestep005positionrandomradiusrandomvxfullsmallHnewdestMLC9.csv', delimiter=',')
-
-vx = np.genfromtxt('D:/Project/Sauvegarde 20_07/Project MLC 2/results/new_occupancy/1008_2_occupancy84time90timestep0025positionrandomradiusrandomvxfullbigHMLC2.csv', delimiter=',')
-
-
-    
+### Computation of order parameters, 75 to 18 pedestrians   
 def calculationphase75to18(begin,end,save_phi,calcul_mean,calcul_var,calcul_std,allv):
     number_list =[75,60,45,36,30,24,18]
     
@@ -120,7 +115,8 @@ def calculationphase75to18(begin,end,save_phi,calcul_mean,calcul_var,calcul_std,
             plt.savefig('C:/Users/alexa/Documents/Alexandre/Imperial/Cours/Project/model19/results/occupancy/phase parameter/pkr/'+str(number)+'/2708_occupancy'+str(number)+'time90timestep005xfullbigH9timesMLC1_std'+text_allv+'.png')
             plt.close()
         np.savetxt('C:/Users/alexa/Documents/Alexandre/Imperial/Cours/Project/model19/results/occupancy/phase parameter/pkr/2708_occupancy75to18time90timestep005xfullbigH9timesMLC1_std75_18'+text_allv+'.csv',std_list,delimiter=',')
-        
+ 
+### Computation of order parameters, 75 to 18 pedestrians, removing vx    
 def calculationphase75to18removingvx(begin,end,save_phi,calcul_mean,calcul_var,calcul_std,allv):
     number_list =[75,60,45,36,30,24,18]
     
@@ -222,10 +218,8 @@ def calculationphase75to18removingvx(begin,end,save_phi,calcul_mean,calcul_var,c
             plt.close()
         np.savetxt('C:/Users/alexa/Documents/Alexandre/Imperial/Cours/Project/model19/results/occupancy/phase parameter/pkr/2708_occupancy75to18time90timestep005xfullbigH9timesMLC1_std75_18'+text_allv+'removingvx.csv',std_list,delimiter=',')
             
-             
-    #return mean_list,var_list,std_list
-    
-    
+ 
+### Order parameters for 90 pedestrians, 27/08 data
 def calculationphase90(begin,end,save_phi,calcul_mean,calcul_var,calcul_std,allv):
     
     mean_list=np.zeros(9)
@@ -320,12 +314,7 @@ def calculationphase90(begin,end,save_phi,calcul_mean,calcul_var,calcul_std,allv
         np.savetxt('C:/Users/alexa/Documents/Alexandre/Imperial/Cours/Project/model19/results/occupancy/phase parameter/pkr/'+str(number)+'/2708_occupancy'+str(number)+'time90timestep005xfullbigH9timesMLC1_std90'+text_allv+'.csv',std_list,delimiter=',')
             
         
-    #return mean_list,var_list,std_list
-    
-    
-#calculationphase75to18(0.0,1.2,True,True,True,True,False)
-#calculationphase90(0,0,False,True,True,True,False)
-
+### Order parameters for 90 pedestrians, 27/08 data, removing vx
 def calculationphase90removingvx(begin,end,save_phi,calcul_mean,calcul_var,calcul_std,allv):
     
     mean_list=np.zeros(9)
@@ -420,7 +409,7 @@ def calculationphase90removingvx(begin,end,save_phi,calcul_mean,calcul_var,calcu
         np.savetxt('C:/Users/alexa/Documents/Alexandre/Imperial/Cours/Project/model19/results/occupancy/phase parameter/pkr/'+str(number)+'/2708_occupancy'+str(number)+'time90timestep005xfullbigH9timesMLC1_std90'+text_allv+'removingvxnotforvo.csv',std_list,delimiter=',')
         
         
-
+### returns mean of orders parameters for only v_x or v_full
 def plotmean2908_list(allv):
     
     if allv : 
@@ -430,10 +419,9 @@ def plotmean2908_list(allv):
         
     mean_list = np.genfromtxt('C:/Users/alexa/Documents/Alexandre/Imperial/Cours/Project/model19/results/occupancy/phase parameter/pkr/2908_occupancy90to12time90timestep005xfullbigH9timesMLC1_mean90_112_new'+text_allv+'.csv',delimiter=',')
     
-
-    
     return mean_list
 
+### Computation of data for figures 4.15
 def plotmean75to18mean_list(allv):
     
     if allv : 
@@ -453,9 +441,8 @@ def plotmean75to18mean_list(allv):
 
     
     
-    
-
-def plotmean75to18(allv,both): #allv : decide if we look of vx or allv, both : in the same graph
+### Figures 4.15
+def plotmean75to18(allv,both): #allv : decide if we look of x-velocity or all speed, both : in the same graph
     
     number_list =[90,75,60,45,36,30,24,18]
     plt.figure()
@@ -475,34 +462,15 @@ def plotmean75to18(allv,both): #allv : decide if we look of vx or allv, both : i
         mean_list2908_true = plotmean2908_list(True)
         mean_list2908_false = plotmean2908_list(False)
         
-        
-       # plt.plot(occ_list,mean_list_true,'o',color='g',markersize=3,label = "allv")
-        # x,y=hf.regression(occ_list,mean_list_true,4,False)
-        # plt.plot(x,y,color='m')
-        #plt.plot(occ_list,mean_list_false,'x',color='orange',markersize=3, label = "only vx")
-        # x,y=hf.regression(occ_list,mean_list_false,4,False)
-        # plt.plot(x,y,color='m')
-        # g
-        
-        #plt.plot(occ_list_2908,mean_list2908_true,'o',color='g',markersize=5, label = "All velocity")
-        # x,y=hf.regression(occ_list,mean_list_true,4,False)
-        # plt.plot(x,y,color='m')
-        
         plt.plot(occ_list_2908,mean_list2908_false,'x',color='b',markersize=5, label = "Only x-component of velocity") 
         plt.tick_params(axis = 'both', labelsize = 15)       
         plt.xlabel("Occupancy",fontsize=15)
         plt.ylabel("Order parameter",fontsize=14,)
-        # for j in range(8):
-        #     mean_meanlist[0,j]=np.mean(mean_list_true[9*j:9*(1+j)])
-        #     mean_meanlist[1,j]=np.mean(mean_list_false[9*j:9*(1+j)])
-        #     
-        # plt.plot(number_list,mean_meanlist[0],'*--',color='k',label = "Mean of all, allv")
-        # plt.plot(number_list,mean_meanlist[1],'*--',color='r',label = "Mean of all, onlyvx")
         plt.legend()
         plt.grid()
         plt.xticks(np.arange(0,0.9,0.1))
         plt.yticks(np.arange(0.75,1.05,0.05))
-        #plt.title("Mean of order parameters from 12 to 90 pedestrians")
+        plt.title("Mean of order parameters from 12 to 90 pedestrians")
         plt.show()
         
         
@@ -534,6 +502,7 @@ def plotmean75to18(allv,both): #allv : decide if we look of vx or allv, both : i
         plt.show()
         
 
+### Calculations of order parameters for 29/08 data
 def calculationphase90to12_2908(begin,end,save_phi,calcul_mean,calcul_var,calcul_std,allv):
     number_list =[90,82,75,67,60,52,45,36,30,24,18,12]
     
@@ -576,7 +545,7 @@ def calculationphase90to12_2908(begin,end,save_phi,calcul_mean,calcul_var,calcul
             for t in range (Time):
                 vx_t = vx[:,t]
                 abs_sum_vxt = np.abs(np.sum(vx_t))
-                sum_abs = np.average(vx) #np.mean(np.abs(vx_t))
+                sum_abs = np.average(vx) 
                 phi = abs_sum_vxt/(people*sum_abs)
                 all_phi.append(phi)
             
@@ -635,7 +604,10 @@ def calculationphase90to12_2908(begin,end,save_phi,calcul_mean,calcul_var,calcul
             plt.savefig('C:/Users/alexa/Documents/Alexandre/Imperial/Cours/Project/model19/results/occupancy/phase parameter/pkr/'+str(number)+'/2908_occupancy'+str(number)+'time90timestep005xfullbigH9timesMLC1_std'+text_allv+'voconstant.png')
             plt.close()
         np.savetxt('C:/Users/alexa/Documents/Alexandre/Imperial/Cours/Project/model19/results/occupancy/phase parameter/pkr/2908_occupancy90to12time90timestep005xfullbigH9timesMLC1_std90_112'+text_allv+'voconstant.csv',std_list,delimiter=',')
-        
+   
+   
+### Calculations of order parameters for 29/08 data, by removing vx (figure 4.16)
+
 def calculationphase90to12_2908_removingvx(begin,end,save_phi,calcul_mean,calcul_var,calcul_std,allv):
     number_list =[90,82,75,67,60,52,45,36,30,24,18,12]
     
@@ -679,7 +651,7 @@ def calculationphase90to12_2908_removingvx(begin,end,save_phi,calcul_mean,calcul
             for t in range (Time):
                 vx_t = vx[:,t]-avg_vx
                 abs_sum_vxt = np.abs(np.sum(vx_t))
-                sum_abs = avg_vx #np.mean(np.abs(vx[:,t]))
+                sum_abs = avg_vx 
                 phi = abs_sum_vxt/(people*sum_abs)
                 all_phi.append(phi)
             
@@ -740,6 +712,9 @@ def calculationphase90to12_2908_removingvx(begin,end,save_phi,calcul_mean,calcul
         np.savetxt('C:/Users/alexa/Documents/Alexandre/Imperial/Cours/Project/model19/results/occupancy/phase parameter/pkr/2908_occupancy90to12time90timestep005xfullbigH9timesMLC1_std90_112'+text_allv+'removingvxvoconstant.csv',std_list,delimiter=',')
  
  
+ 
+### Calculations of order parameters for 96 pedestrians, 10/09 data, by removing vx
+
 def calculationphase96_1009_removingvx(begin,end,save_phi,calcul_mean,calcul_var,calcul_std,allv):
     number_list =[96]
     
@@ -793,8 +768,6 @@ def calculationphase96_1009_removingvx(begin,end,save_phi,calcul_mean,calcul_var
                 sum_abs = np.mean(np.abs(vx_t))
                 phi = abs_sum_vxt/(people*sum_abs)
                 all_phi.append(phi)
-            
-        
         
         if save_phi:
             plt.figure(i)
@@ -849,8 +822,10 @@ def calculationphase96_1009_removingvx(begin,end,save_phi,calcul_mean,calcul_var
             plt.savefig('C:/Users/alexa/Documents/Alexandre/Imperial/Cours/Project/model19/results/occupancy/phase parameter/pkr/'+str(number)+'/1009_occupancy'+str(number)+'time90timestep005xfullbigH6timesMLC1_std'+text_allv+'removingvxvoconstant.png')
             plt.close()
         np.savetxt('C:/Users/alexa/Documents/Alexandre/Imperial/Cours/Project/model19/results/occupancy/phase parameter/pkr/1009_occupancy90to12time90timestep005xfullbigH6timesMLC1_std90_112'+text_allv+'removingvx.csv',std_list,delimiter=',')     
+       
+       
         
- 
+### Calculations of order parameters for 18 to 6 pedestrians, 10/09 data, by removing vx, (surprising ?) dispersion of values in this area
 def calculationphase18_6_1009_removingvx(begin,end,save_phi,calcul_mean,calcul_var,calcul_std,allv):
     number_list =[18,12,6]
     
@@ -965,28 +940,3 @@ def calculationphase18_6_1009_removingvx(begin,end,save_phi,calcul_mean,calcul_v
 
 
 
-
-mean_list1009_90=np.genfromtxt('C:/Users/alexa/Documents/Alexandre/Imperial/Cours/Project/model19/results/occupancy/phase parameter/pkr/1009_occupancy90to12time90timestep005xfullbigH6timesMLC1_mean90_112_newonlyvxremovingvx.csv',delimiter=',')
-
-mean_list1009_18=np.genfromtxt('C:/Users/alexa/Documents/Alexandre/Imperial/Cours/Project/model19/results/occupancy/phase parameter/pkr/1009_occupancy90to12time90timestep005xfullbigH9timesMLC1_mean90_112_newonlyvxremovingvx.csv',delimiter=',')
-
-mean_list2908=np.genfromtxt('C:/Users/alexa/Documents/Alexandre/Imperial/Cours/Project/model19/results/occupancy/phase parameter/pkr/2908_occupancy90to12time90timestep005xfullbigH9timesMLC1_mean90_112_newonlyvxremovingvx.csv',delimiter=',')
-
-mean_list2708=np.genfromtxt('C:/Users/alexa/Documents/Alexandre/Imperial/Cours/Project/model19/results/occupancy/phase parameter/pkr/2708_occupancy75to18time90timestep005xfullbigH9timesMLC1_mean75_18onlyvxremovingvx.csv',delimiter=',')
-
-mean_list2708_90=np.genfromtxt('C:/Users/alexa/Documents/Alexandre/Imperial/Cours/Project/model19/results/occupancy/phase parameter/pkr/90/2708_occupancy90time90timestep005xfullbigH9timesMLC1_mean90_newonlyvxremovingvx.csv',delimiter=',')
-
-# mean_list2708=np.concatenate([mean_list2708_90,mean_list2708])
-# 
-# mean_list1009=np.concatenate([mean_list1009_90,mean_list1009_18])
-# 
-# occ1009 = hf.occlist1908()
-# occ2708= hf.occlist2708()
-# occ2908 = hf.occlist2908()
-# plt.plot(occ2908,mean_list2908,'o',color='b',markersize=3)
-# plt.plot(occ1009,mean_list1009,'o',color='b',markersize=3)
-# plt.plot(occ2708,mean_list2708,'o',color='b',markersize=3)
-# plt.xlabel("Occupancy")
-# plt.ylabel("Order parameter")
-# plt.title("Mean of order parameter, from 6 to 96 people, removing vx")
-# plt.show()

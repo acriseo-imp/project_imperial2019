@@ -1,3 +1,14 @@
+"""
+
+CRISEO Alexandre
+CID 01604586
+Imperial College, 2018-2019, MSC Applied Mathematics
+
+
+Functions used in other codes. Extracting wanted simulations data.
+
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import math
@@ -9,10 +20,8 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.preprocessing import PolynomialFeatures
 
-
+### returns occupancies for each person for data of 29/08 or 27/08
 def occlistforeachperson(date):
-    
-    
     if date == 2908 : 
     
         number,occ90,avg,time,iter,avgvx=np.genfromtxt('D:/Project/pkr/total/29089fois90a12_time90timestep0025resultsfullbigH9timesMLC2.csv',delimiter=',')
@@ -40,8 +49,9 @@ def occlistforeachperson(date):
             
     return occ_list_person
             
-            
-def occlist1908():
+   
+### returns occupancy of 10/09 data
+def occlist1009():
     
     occ=[]
     for i in range(6):
@@ -55,14 +65,35 @@ def occlist1908():
         occ.append(occ18)
         
     return occ
+    
+### returns number of pedestrians and average speed for 19/08 data
+def numberspeedlist1908():
+    
+    numberlist=[]
+    speed=[]
+    for i in range(6):
+        number,occ96,avg,time,iter,avgvx = np.genfromtxt('D:/Project/pkr/96/1009_'+str(i)+'_occupancy96time90timestep005resultsbigH6timesMLC1.csv',delimiter=",")
+        numberlist.append(number)
+        speed.append(avg)
+        
+    number_list=[18,12,6]
+    for i in range(27):
+        number = number_list[i//9]
+        number,occ18,avg,time,iter,avgvx = np.genfromtxt('D:/Project/pkr/'+str(number)+'/1009_'+str(i)+'_occupancy'+str(number)+'time90timestep005resultsbigH9timesMLC1.csv',delimiter=",")
+        numberlist.append(number)
+        speed.append(avg)
+        
+    return numberlist,speed
  
-   
+ 
+### returns density of 27/08 data
 def denslist2708():
     
     number90,occ90,avg,time,iter,avgvx=np.genfromtxt('D:/Project/pkr/total/27089fois90_time90timestep005resultsfullbigH9timesMLC1.csv',delimiter=',')
     number75,occ75,avg,time,iter,avgvx=np.genfromtxt('D:/Project/pkr/total/27089fois75a18_time90timestep005resultsfullbigH9timesMLC1.csv',delimiter=',')
     return np.concatenate([number90/24,number75/24])
  
+### returns density of 29/08 data
 def denslist2908():
     
     number90,occ90,avg,time,iter,avgvx=np.genfromtxt('D:/Project/pkr/total/29089fois90a12_time90timestep0025resultsfullbigH9timesMLC2.csv',delimiter=',')
@@ -70,10 +101,12 @@ def denslist2908():
     number67,occ67,avg,time,iter,avgvx=np.genfromtxt('D:/Project/pkr/total/29089fois67a12_time90timestep0025resultsfullbigH9timesMLC2.csv',delimiter=',')
     
     return np.concatenate([number90/24,number67/24])
-    
+ 
+### returns matrix_contact of one simulation, 29/08 data
 def matrix2908(pc,number,iteration):
     return np.genfromtxt('D:/Project/pkr/'+str(number)+'/2908_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005matrixbigH9times'+pc+'.csv', delimiter=',')
     
+###returns different occupancies for 29/08 data
 def occlist2908():
     
     
@@ -82,7 +115,8 @@ def occlist2908():
     number,occ67,avg,time,iter,avgvx=np.genfromtxt('D:/Project/pkr/total/29089fois67a12_time90timestep0025resultsfullbigH9timesMLC2.csv',delimiter=',')
     
     return np.concatenate([occ90,occ67])
-    
+ 
+###returns average x-speed for 29/08 data   
 def avgvxlist2908():
     
     number,occ90,avg,time,iter,avgvx90=np.genfromtxt('D:/Project/pkr/total/29089fois90a12_time90timestep0025resultsfullbigH9timesMLC2.csv',delimiter=',')
@@ -91,8 +125,7 @@ def avgvxlist2908():
     
     return np.concatenate([avgvx90,avgvx67])
     
-    
-
+### returns occupancy of 27/08 data  
 def occlist2708():
     
     number,occ90,avg,time,iter,avgvx=np.genfromtxt('D:/Project/pkr/total/27089fois90_time90timestep005resultsfullbigH9timesMLC1.csv',delimiter=',')
@@ -100,16 +133,8 @@ def occlist2708():
     return np.concatenate([occ90,occ75])
 
 
-def parameters_005(date,pc,number,iteration):
-    
-    if date == 2708:
-        return parameters_2708(number,iteration)
-    
-    if date == 2908:
-        return parameters_2908_005(pc,number,iteration)
-
-def parameters_2708(number,iteration): #have to put number = a.b, even for O -> O.O
-        
+### returns x,y,vx,vy,occ of 27/08 data
+def parameters_2708(number,iteration): 
     x = np.genfromtxt('D:/Project/pkr/'+str(number)+'/2708_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005xfullbigH9timesMLC1.csv', delimiter=',') #x_full[0]
     y = np.genfromtxt('D:/Project/pkr/'+str(number)+'/2708_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005yfullbigH9timesMLC1.csv', delimiter=',') #x_full[1]
     
@@ -118,9 +143,8 @@ def parameters_2708(number,iteration): #have to put number = a.b, even for O -> 
     number,occ,avg,time,iter,avgvx=np.genfromtxt('D:/Project/pkr/'+str(number)+'/2708_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005resultsbigH9timesMLC1.csv',delimiter=',')
     return x,y,vx,vy,occ
     
-
-def parameters_2908_005(pc,number,iteration): #have to put number = a.b, even for O -> O.O
-        
+### returns x,y,vx,vy,occ of 29/08 data
+def parameters_2908_005(pc,number,iteration): 
     x = np.genfromtxt('D:/Project/pkr/'+str(number)+'/2908_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005xfullbigH9times'+pc+'.csv', delimiter=',') #x_full[0]
     y = np.genfromtxt('D:/Project/pkr/'+str(number)+'/2908_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005yfullbigH9times'+pc+'.csv', delimiter=',') #x_full[1]
     
@@ -129,55 +153,47 @@ def parameters_2908_005(pc,number,iteration): #have to put number = a.b, even fo
     number,occ,avg,time,iter,avgvx=np.genfromtxt('D:/Project/pkr/'+str(number)+'/2908_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005resultsbigH9times'+pc+'.csv',delimiter=',')
     return x,y,vx,vy,occ
     
-def occ_2908_oneperson(pc,number,iteration): #have to put number = a.b, even for O -> O.O:
+### returns x,y,vx,vy,occ of chosen data
+def parameters_005(date,pc,number,iteration):
+    
+    if date == 2708:
+        return parameters_2708(number,iteration)
+    
+    if date == 2908:
+        return parameters_2908_005(pc,number,iteration)
+        
+### returns occupancy of one simulation, 29/08 data
+def occ_2908_oneperson(pc,number,iteration):
 
     number,occ,avg,time,iter,avgvx=np.genfromtxt('D:/Project/pkr/'+str(number)+'/2908_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005resultsbigH9times'+pc+'.csv',delimiter=',')
     return occ
     
-    
-def parameters_2708anim(number,iteration): #have to put number = a.b, even for O -> O.O
+   
+### returns x,y,r,occ of 27/08 data for one simulation
+def parameters_2708anim(number,iteration): 
         
-    x = np.genfromtxt('D:/Project/pkr/'+str(number)+'/2708_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005xfullbigH9timesMLC1.csv', delimiter=',') #x_full[0]
-    y = np.genfromtxt('D:/Project/pkr/'+str(number)+'/2708_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005yfullbigH9timesMLC1.csv', delimiter=',') #x_full[1]
-    
+    x = np.genfromtxt('D:/Project/pkr/'+str(number)+'/2708_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005xfullbigH9timesMLC1.csv', delimiter=',') 
+    y = np.genfromtxt('D:/Project/pkr/'+str(number)+'/2708_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005yfullbigH9timesMLC1.csv', delimiter=',') 
     r = np.genfromtxt('D:/Project/pkr/'+str(number)+'/2708_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005rbigH9timesMLC1.csv', delimiter=',') 
 
     number,occ,avg,time,iter,avgvx=np.genfromtxt('D:/Project/pkr/'+str(number)+'/2708_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005resultsbigH9timesMLC1.csv',delimiter=',')
     return x,y,r,occ  
     
-def parameters_2908_005anim(pc,number,iteration): #have to put number = a.b, even for O -> O.O
+### returns x,y,vx,r,occ of 29/08 data
+def parameters_2908_005anim(pc,number,iteration): 
         
-    x = np.genfromtxt('D:/Project/pkr/'+str(number)+'/2908_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005xfullbigH9times'+pc+'.csv', delimiter=',') #x_full[0]
-    y = np.genfromtxt('D:/Project/pkr/'+str(number)+'/2908_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005yfullbigH9times'+pc+'.csv', delimiter=',') #x_full[1]
+    x = np.genfromtxt('D:/Project/pkr/'+str(number)+'/2908_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005xfullbigH9times'+pc+'.csv', delimiter=',') 
+    y = np.genfromtxt('D:/Project/pkr/'+str(number)+'/2908_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005yfullbigH9times'+pc+'.csv', delimiter=',')
     
-    vx = np.genfromtxt('D:/Project/pkr/'+str(number)+'/2908_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005vxfullbigH9times'+pc+'.csv', delimiter=',') #v_full[0]
+    vx = np.genfromtxt('D:/Project/pkr/'+str(number)+'/2908_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005vxfullbigH9times'+pc+'.csv', delimiter=',')
     
     r = np.genfromtxt('D:/Project/pkr/'+str(number)+'/2908_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005rbigH9times'+pc+'.csv', delimiter=',') 
      
     number,occ,avg,time,iter,avgvx=np.genfromtxt('D:/Project/pkr/'+str(number)+'/2908_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005resultsbigH9times'+pc+'.csv',delimiter=',')
     return x,y,vx,r,occ
     
-    
-def time_2908_005anim(pc,number,iteration): #have to put number = a.b, even for O -> O.O
-        
 
-    number,occ,avg,time,iter,avgvx=np.genfromtxt('D:/Project/pkr/'+str(number)+'/2908_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005resultsbigH9times'+pc+'.csv',delimiter=',')
-    return time
-    
-def time_2708anim(number,iteration): #have to put number = a.b, even for O -> O.O
-        
-
-    number,occ,avg,time,iter,avgvx=np.genfromtxt('D:/Project/pkr/'+str(number)+'/2708_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005resultsbigH9timesMLC1.csv',delimiter=',')
-    return time  
- 
-def time_005anim(date,pc,number,iteration):
-    
-    if date == 2708:
-        return time_2708anim(number,iteration)
-    
-    if date == 2908:
-        return time_2908_005anim(pc,number,iteration)
-           
+### returns x,y,vx,r,occ of chosen data           
 def parameters_005anim(date,pc,number,iteration):
     
     if date == 2708:
@@ -185,8 +201,31 @@ def parameters_005anim(date,pc,number,iteration):
     
     if date == 2908:
         return parameters_2908_005anim(pc,number,iteration)
+    
+### returns time of one simulation, 29/08 data
+def time_2908_005anim(pc,number,iteration): 
+
+    number,occ,avg,time,iter,avgvx=np.genfromtxt('D:/Project/pkr/'+str(number)+'/2908_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005resultsbigH9times'+pc+'.csv',delimiter=',')
+    return time
+    
+### returns time of one simulation, 27/08 data
+def time_2708anim(number,iteration): 
+    number,occ,avg,time,iter,avgvx=np.genfromtxt('D:/Project/pkr/'+str(number)+'/2708_'+str(iteration)+'_occupancy'+str(number)+'time90timestep005resultsbigH9timesMLC1.csv',delimiter=',')
+    return time  
+ 
+ 
+### returns time of chosen data
+def time_005anim(date,pc,number,iteration):
+    
+    if date == 2708:
+        return time_2708anim(number,iteration)
+    
+    if date == 2908:
+        return time_2908_005anim(pc,number,iteration)
+
+
         
-        
+### returns x_full and v_full of chosen data
 def parameters_xvfull(date,number,iteration):
     if date == 2708 : 
         x,y,vx,vy,occ = parameters_2708(number,iteration)
@@ -202,32 +241,5 @@ def parameters_xvfull(date,number,iteration):
     v_full[0]=vx
     v_full[1]=vy
     return x_full, v_full
-    
-def regression(x,y,value_degree,toplot):
-    #transforming the data to include another axis
-    x = x[:, np.newaxis]
-    y = y[:, np.newaxis]
-    
-    polynomial_features= PolynomialFeatures(degree=value_degree)
-    x_poly = polynomial_features.fit_transform(x)
-    
-    model = LinearRegression()
-    model.fit(x_poly, y)
-    y_poly_pred = model.predict(x_poly)
-    
-    rmse = np.sqrt(mean_squared_error(y,y_poly_pred))
-    r2 = r2_score(y,y_poly_pred)
-    print(rmse)
-    print(r2)
-    if toplot : 
-        
-        plt.scatter(x, y, s=10)
-        # sort the values of x before line plot
-        sort_axis = operator.itemgetter(0)
-        sorted_zip = sorted(zip(x,y_poly_pred), key=sort_axis)
-        x, y_poly_pred = zip(*sorted_zip)
-        plt.plot(x, y_poly_pred, color='m')
-        plt.show()
-    else:
-        return x,y_poly_pred 
+
     
